@@ -9,5 +9,22 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+}
+
+model Transaction {
+  id  String @id @default(cuid())
+  type TransactionType
+  amount Decimal @default(0)
+  category String?
+  description String?
+  transactionDate DateTime
+  image String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
 }
