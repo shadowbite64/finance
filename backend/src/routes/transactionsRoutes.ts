@@ -1,7 +1,7 @@
 import { Router } from "express";
 import prisma from "../lib/prisma.js";
 import { Prisma } from "../generated/prisma/client.js";
-import { createTransactionSchema } from "../schemas/transactionsSchema.js";
+import { createTransactionSchema, updateTransactionSchema } from "../schemas/transactionsSchema.js";
 import fs from "node:fs/promises"
 
 const router = Router();
@@ -62,6 +62,36 @@ router.post("/", async (req, res, next) => {
         
         res.status(201).json(transaction);
     } catch (error) {
+        next(error);
+    }
+})
+
+// UPDATE PRODUCT
+router.patch("/:id", async (req, res, next) => {
+    const result = updateTransactionSchema.safeParse(req.body);
+
+    if(!result.success) {
+        return res.status(400).json({
+            message: "Invalid request body",
+            error: result.error.flatten().fieldErrors
+        });
+    }
+
+    try {
+        const transaction = await prisma.transaction.update({
+            where: {
+                id: req.params.id,
+            },
+            data: result.data,
+        });
+
+        res.json(transaction);
+    } catch (error) {
+        if(error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+            return res.status(404).json({
+                message: "Transaction not found",
+            });
+        }
         next(error);
     }
 })
