@@ -1,6 +1,5 @@
 import { Router } from "express";
 import prisma from "../lib/prisma.js";
-import { Prisma } from "../generated/prisma/client.js";
 import { createTransactionSchema, updateTransactionSchema } from "../schemas/transactionsSchema.js";
 import upload from "../middlewares/upload.js"
 
@@ -24,7 +23,7 @@ router.get("/:id", async (req, res) => {
 
     if(!transaction) {
         return res.status(404).json({
-            message: "Product not found"
+            message: "Transaction not found"
         });
     }
     
@@ -55,7 +54,7 @@ router.post("/", async (req, res) => {
     res.status(201).json(transaction);
 })
 
-// UPDATE PRODUCT
+// UPDATE TRANSACTION
 router.patch("/:id", async (req, res, next) => {
     const result = updateTransactionSchema.safeParse(req.body);
 
@@ -91,7 +90,7 @@ router.delete("/:id", async (req, res, next) => {
 })
 
 // POST UPLOAD TRANSACTION
-router.post("/:id/image", upload.single("image"), async (req, res) => {    
+router.patch("/:id/image", upload.single("image"), async (req, res) => {    
     if (!req.file) {
         return res.status(400).json({
             message: "No file uploaded",
