@@ -82,9 +82,10 @@ router.delete("/:id", async (req, res, next) => {
         where: { id: req.params.id }
     });
 
-    // if (!transaction){
-
-    // }
+    if (transaction.image) {
+        const imagePath = transaction.image.replace("/uploads", "uploads/");
+        await fs.unlink(imagePath).catch(() => {});
+    }
 
     return res.status(204).send();
 })
