@@ -96,4 +96,24 @@ router.patch("/:id", async (req, res, next) => {
     }
 })
 
+// DELETE TRANSACTION
+router.delete("/:id", async (req, res, next) => {
+    try {
+        const transaction = await prisma.transaction.delete({
+            where: { id: req.params.id }
+        });
+
+        // if (!transaction){
+
+        // }
+
+        return res.status(204).send();
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+            return res.status(404).json({ message: "Product not found" });
+        }
+        next(error);
+    }
+})
+
 export default router;
