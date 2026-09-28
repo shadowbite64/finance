@@ -68,7 +68,7 @@ onMounted(() => {
     <div v-if="transactions.length === 0">No transactions recorded yet.</div>
 
     <section v-else>
-        <div class="border border-slate-200 rounded-lg p-4 mb-6">
+        <div class="bg-white shadow-sm border border-slate-200 rounded-lg p-4 mb-6">
             <p class="text-emerald-600 font-bold text-lg">Total Income: {{ totalIncome }}</p>
             <p class="text-red-600 font-bold text-lg">Total Expense: {{ totalExpense }}</p>
             <p class="font-bold text-xl">Balance: {{ balance }}</p>
@@ -86,7 +86,7 @@ onMounted(() => {
                     <th class="p-3 text-left text-base text-slate-700 uppercase">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200">
+            <tbody class="bg-white divide-y divide-slate-200">
                 <tr v-for="transaction in transactions" :key="transaction.id">
                     <td class="p-3 text-slate-700">{{ formatDate(transaction.transactionDate) }}</td>
                     <td class="p-3 text-slate-700">{{ transaction.type }}</td>
@@ -94,7 +94,7 @@ onMounted(() => {
                     <td class="p-3 text-slate-700">{{ transaction.category }}</td>
                     <td class="p-3 text-slate-700">{{ transaction.description }}</td>
                     <td class="p-3 text-slate-700">
-                        <img class="size-20" v-if="transaction.image" :src="`${ASSET_URL}${transaction.image}`" />
+                        <img class="size-15" v-if="transaction.image" :src="`${ASSET_URL}${transaction.image}`" />
                         <span v-else>No image</span>
                     </td>
                     <td class="p-3">
