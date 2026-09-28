@@ -9,11 +9,11 @@ const editingId = ref<string | null>(null);
 
 <template>
   <TransactionList @edit="editingId = $event"/>
-  <TransactionUpdate v-if="editingId" 
+  <!-- <TransactionUpdate v-if="editingId" 
     :transactionId="editingId" 
     @cancel="editingId = null" 
   />
-  <TransactionCreate v-else />
+  <TransactionCreate v-else /> -->
   
 </template>
 
