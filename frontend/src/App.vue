@@ -1,11 +1,20 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TransactionList from './views/TransactionList.vue';
+import TransactionCreate from './views/TransactionCreate.vue';
+import TransactionUpdate from './views/TransactionUpdate.vue';
+import { ref } from 'vue';
+
+const editingId = ref<string | null>(null);
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <TransactionList @edit="editingId = $event"/>
+  <TransactionUpdate v-if="editingId" 
+    :transactionId="editingId" 
+    @cancel="editingId = null" 
+  />
+  <TransactionCreate v-else />
+  
 </template>
 
 <style scoped></style>
